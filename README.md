@@ -2,7 +2,9 @@
 
 ## Overview
 
-This Dockerfile sets up a development environment for robotics projects, focusing on ROS2 Foxy and support for Kinova's Kortex API. It also includes essential tools and libraries for robotics, dynamics, and motion planning. The environment is built on the `nvidia/opengl:base-ubuntu20.04` base image to leverage Nvidia GPUs and OpenGL for performance enhancements.
+This Dockerfile sets up a development environment for [kinova_control](https://github.com/roahmlab/kinova_control/tree/ros2), focusing on ROS2 Foxy and support for Kinova's Kortex API. 
+It also includes essential tools and libraries for robotics, dynamics, and motion planning. 
+The environment is built on the `nvidia/opengl:base-ubuntu20.04` base image to leverage Nvidia GPUs and OpenGL for performance enhancements.
 
 #### Key Features
 - ROS2 Foxy setup with essential tools.
@@ -21,12 +23,20 @@ This Dockerfile sets up a development environment for robotics projects, focusin
 
 ## Build the Docker
 
-We strongly recommend using Docker. We have provided a Dockerfile that will automatically install all the required packages. If you don't have Docker installed, you can find the installation instructions [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository).
+We strongly recommend using Docker. 
+We have provided a Dockerfile that will automatically install all the required packages. 
+If you don't have Docker installed, you can find the installation instructions [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository).
 
-#### 1. Clone the repository:
+#### 1. Clone the repository (together with kinova_control):
 
 ```shell
-git clone https://github.com/Zichangzhou1234/kinova_control_docker.git
+git clone --recurse-submodules https://github.com/Zichangzhou1234/kinova_control_docker.git
+```
+
+#### 2. Update kinova_control (optional)
+
+```shell
+git submodule update --init --recursive
 ```
 
 #### 2. Build docker based Visual Studio Code:
@@ -34,15 +44,13 @@ git clone https://github.com/Zichangzhou1234/kinova_control_docker.git
 2. Search for `Dev Containers: Rebuild and Reopen Container`.
 3. Select it to automatically build the environment from [docker/Dockerfile](docker/Dockerfile).
 
-#### 3. Add the Kinova Control:
-Navigate to the src/ directory and add the Kinova Control repository:
+#### 3. Build kinova_control
+
 ```shell
-cd src/
-git clone https://github.com/roahmlab/kinova_control.git
+colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
-**Note**: The Kinova Control repository linked above is **not the latest version**. The correct version can be obtained from **winboz**. For more details, visit the [Kinova Control ROS2 branch](https://github.com/roahmlab/kinova_control/tree/ros2).
 
-
+For more details, visit the [kinova_control ROS2 branch](https://github.com/roahmlab/kinova_control/tree/ros2).
 
 <!-- ### HSL
 You should complete HSL steps BEFORE you build the docker image otherwise you will have error.
@@ -93,7 +101,7 @@ Note that this is ONLY for SINGLE PRECISION version!!!
 
 ---
 ## Rules
-If you have any questions or suggestions, please email Bohao Zhang `(jimzhang@umich.edu)`.
+If you have any questions or suggestions, please raise them in [Issues](https://github.com/roahmlab/kinova_control_docker/issues).
 We will get back to you as soon as possible.
 
 

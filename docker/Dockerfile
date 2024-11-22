@@ -89,9 +89,9 @@ RUN python3 -m pip install -U \
   pytest \
   pybind11
 
-  RUN echo "export CONAN_REVISIONS_ENABLED=1" >> /root/.bashrc && echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
+RUN echo "export CONAN_REVISIONS_ENABLED=1" >> /root/.bashrc && echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
 
-  RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y \
     libgflags-dev \
     libgoogle-glog-dev \
     libusb-1.0-0-dev \

@@ -2,6 +2,7 @@
 *.bag
 *.log
 *.obj
+log/
 
 # Ignore everything in the scripts/data directory
 scripts/data/

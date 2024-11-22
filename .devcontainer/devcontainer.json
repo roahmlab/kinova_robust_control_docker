@@ -1,5 +1,5 @@
 {
-    "name": "Roahm Kinova Development Container",
+    "name": "RoahmLab Kinova Development Container",
     "build": {
         "dockerfile": "../docker/Dockerfile",
         "context": ".."
