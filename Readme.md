@@ -4,7 +4,6 @@
 
 This Dockerfile sets up a development environment for robotics projects, focusing on ROS2 Foxy and support for Kinova's Kortex API. It also includes essential tools and libraries for robotics, dynamics, and motion planning. The environment is built on the `nvidia/opengl:base-ubuntu20.04` base image to leverage Nvidia GPUs and OpenGL for performance enhancements.
 
----
 
 ### Key Features
 - ROS2 Foxy setup with essential tools.
@@ -87,7 +86,7 @@ Note that this is ONLY for SINGLE PRECISION version!!!
 - Sets up Conan for dependency management.
 - Configures default Conan profile for modern C++ standards.
 
-### Robot Dynamics with Pinocchio
+#### Robot Dynamics with Pinocchio
 - Installs the Pinocchio library for efficient robot dynamics computations.
 
 #### Environment Variables
