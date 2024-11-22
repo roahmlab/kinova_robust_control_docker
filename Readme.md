@@ -4,6 +4,8 @@
 
 This Dockerfile sets up a development environment for robotics projects, focusing on ROS2 Foxy and support for Kinova's Kortex API. It also includes essential tools and libraries for robotics, dynamics, and motion planning. The environment is built on the `nvidia/opengl:base-ubuntu20.04` base image to leverage Nvidia GPUs and OpenGL for performance enhancements.
 
+---
+
 ### Key Features
 - ROS2 Foxy setup with essential tools.
 - Integration with Kinova's API.
@@ -27,16 +29,20 @@ This Dockerfile sets up a development environment for robotics projects, focusin
 We strongly recommend using Docker. We have provided a Dockerfile that will automatically install all the required packages. If you don't have Docker installed, you can find the installation instructions [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository).
 
 ### Docker
+#### Clone the repository:
 1. 
 ```shell
-sudo apt-get install libgsl-dev
+git clone https://github.com/Zichangzhou1234/kinova_control_docker.git
 ```
 2. The provided Dockerfile is at [docker/Dockerfile](../docker/Dockerfile). 
 Follow the following intructions to build and enter the docker image.
 
-In Visual Studio Code, simply click `ctrl+shift+P` and search "Dev Containers: Rebuild and Reopen Container", it will build the environment automatically for you from [docker/Dockerfile](../docker/Dockerfile).
+#### Build docker based Visual Studio Code:
+1. Press `Ctrl+Shift+P`.
+2. Search for **"Dev Containers: Rebuild and Reopen Container"**.
+3. Select it to automatically build the environment from [docker/Dockerfile](docker/Dockerfile).
 
-### HSL
+<!-- ### HSL
 You should complete HSL steps BEFORE you build the docker image otherwise you will have error.
 
 We have selected [HSL](https://www.hsl.rl.ac.uk/) to solve large linear systems in the nonlinear optimization problem. 
@@ -45,7 +51,9 @@ Note that this is ONLY for SINGLE PRECISION version!!!
 1. Go to [HSL MA57](https://www.hsl.rl.ac.uk/catalogue/hsl_ma57.html) official website. Click `Code Download` and follow its instructions. After submitting the request, wait a few minute for email reply.
 2. Download the code in the link that HSL provides you. The name of the zip file and the folder inside it is going to be `hsl_ma57` + its version number. 
 3. Extract the code and rename the folder as `hsl_ma57`. Compress the folder again and rename the zip file as `hsl_ma57.zip` (just make sure both of them are named as `hsl_ma57` by removing the version number).
-4. Note: This zip file will later be 'unziped' and built inside the docker container.
+4. Note: This zip file will later be 'unziped' and built inside the docker container. -->
+
+---
 
 ## Detail for the dockerfile
 
