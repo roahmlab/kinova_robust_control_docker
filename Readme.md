@@ -28,7 +28,6 @@ This Dockerfile sets up a development environment for robotics projects, focusin
 
 We strongly recommend using Docker. We have provided a Dockerfile that will automatically install all the required packages. If you don't have Docker installed, you can find the installation instructions [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository).
 
-### Docker
 #### 1. Clone the repository:
 
 ```shell
@@ -65,36 +64,36 @@ Note that this is ONLY for SINGLE PRECISION version!!!
 
 ## Detail for the dockerfile
 
-### Base Environment
+#### Base Environment
 - Uses Ubuntu 20.04 with Nvidia OpenGL support.
 - Sets non-interactive mode to streamline the installation process.
 
-### Locale and Dependencies
+#### Locale and Dependencies
 - Configures locales for `en_US.UTF-8`.
 - Installs essential tools like `nano`, `git`, `python3`, `pip`, and compilers.
 
-### ROS2 Foxy Installation
+#### ROS2 Foxy Installation
 - Installs ROS2 Foxy desktop packages.
 - Adds ROS setup to the environment for easy access.
 
-### Kinova Kortex API
+#### Kinova Kortex API
 - Clones the Kortex repository.
 - Installs the Kortex Python API for controlling Kinova robotic arms.
 
-### Python Development Tools
+#### Python Development Tools
 - Includes testing and linting tools such as `pytest`, `argcomplete`, and `flake8`.
 
-### C++ Dependencies
+#### C++ Dependencies
 - Sets up Conan for dependency management.
 - Configures default Conan profile for modern C++ standards.
 
 ### Robot Dynamics with Pinocchio
 - Installs the Pinocchio library for efficient robot dynamics computations.
 
-### Environment Variables
+#### Environment Variables
 - Configures environment variables for ROS, Python, and installed libraries.
 
-### Optional Solvers (Commented)
+#### Optional Solvers (Commented)
 - Placeholder commands for HSL, Ipopt, and OMPL installation, allowing flexibility for users needing specific solvers.
 
 
