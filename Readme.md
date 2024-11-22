@@ -40,7 +40,7 @@ git clone https://github.com/Zichangzhou1234/kinova_control_docker.git
 2. Search for `Dev Containers: Rebuild and Reopen Container`.
 3. Select it to automatically build the environment from [docker/Dockerfile](docker/Dockerfile).
 
-#### 3. add the kinova control :
+#### 3. Add the Kinova Control:
 Navigate to the src/ directory and add the Kinova Control repository:
 ```shell
 cd src/
