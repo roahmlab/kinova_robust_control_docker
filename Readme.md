@@ -29,18 +29,26 @@ This Dockerfile sets up a development environment for robotics projects, focusin
 We strongly recommend using Docker. We have provided a Dockerfile that will automatically install all the required packages. If you don't have Docker installed, you can find the installation instructions [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository).
 
 ### Docker
-#### Clone the repository:
-1. 
+#### 1. Clone the repository:
+
 ```shell
 git clone https://github.com/Zichangzhou1234/kinova_control_docker.git
 ```
-2. The provided Dockerfile is at [docker/Dockerfile](../docker/Dockerfile). 
-Follow the following intructions to build and enter the docker image.
 
-#### Build docker based Visual Studio Code:
-1. Press `Ctrl+Shift+P`.
-2. Search for **"Dev Containers: Rebuild and Reopen Container"**.
+#### 2. Build docker based Visual Studio Code:
+1. Open Visual Studio Code and Press `Ctrl+Shift+P`.
+2. Search for `Dev Containers: Rebuild and Reopen Container`.
 3. Select it to automatically build the environment from [docker/Dockerfile](docker/Dockerfile).
+
+#### 3. add the kinova control :
+Navigate to the src/ directory and add the Kinova Control repository:
+```shell
+cd src/
+git clone https://github.com/roahmlab/kinova_control.git
+```
+**Note**: The Kinova Control repository linked above is **not the latest version**. The correct version can be obtained from **winboz**. For more details, visit the [Kinova Control ROS2 branch](https://github.com/roahmlab/kinova_control/tree/ros2).
+
+
 
 <!-- ### HSL
 You should complete HSL steps BEFORE you build the docker image otherwise you will have error.
