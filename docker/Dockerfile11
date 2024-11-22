@@ -1,0 +1,218 @@
+# Dockerfile
+FROM nvidia/opengl:base-ubuntu20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Create needed directories
+RUN mkdir -p /etc/sudoers.d
+RUN mkdir -p /home/roahmlab/catkin_workspace/src
+RUN mkdir -p /home/roahmlab/src
+
+RUN apt-get update && apt-get install software-properties-common nano python3-yaml git python3 python3-pip curl -y
+
+# Install ROS Noetic
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
+RUN apt-get update && apt-get install ros-noetic-desktop-full -y
+RUN apt-get install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential wget cmake libgtk2.0-dev libusb-1.0 ffmpeg mlocate locate  -y
+RUN apt-get install git -y
+RUN git clone -b noetic-devel https://github.com/Kinovarobotics/ros_kortex.git
+
+
+WORKDIR /home/roahmlab/catkin_workspace
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && rosdep init"
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && rosdep update"
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && rosdep install --from-paths src --ignore-src --rosdistro noetic -r -y"
+
+
+# kinova vision
+RUN apt-get update && apt-get install gstreamer1.0-tools gstreamer1.0-libav libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-base -y
+
+WORKDIR /home/roahmlab/catkin_workspace/src
+RUN git clone https://github.com/Kinovarobotics/ros_kortex_vision.git
+
+
+WORKDIR /home/roahmlab/catkin_workspace
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && catkin_make clean"
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && catkin_make"
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && catkin_make install"
+RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+RUN echo "source /home/roahmlab/catkin_workspace/devel/setup.bash" >> ~/.bashrc
+
+RUN apt-get update && apt-get install ros-noetic-rgbd-launch scons mongodb-server-core ros-noetic-mongodb-store ros-noetic-warehouse-ros-mongo ros-noetic-tf2*  lshw python3-catkin-tools ros-noetic-ros-control ros-noetic-ros-controllers -y
+
+WORKDIR /home/roahmlab/catkin_workspace/src
+# install natnet_ros_cpp
+RUN git clone https://github.com/L2S-lab/natnet_ros_cpp.git
+WORKDIR /home/roahmlab/catkin_workspace
+
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && catkin_make"
+
+# Install repositories Ubuntu 20.04 and Ubuntu 18.04
+RUN curl -sSL https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc
+RUN apt-add-repository https://packages.microsoft.com/ubuntu/20.04/prod
+
+RUN curl -sSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+RUN echo "deb [arch=amd64] https://packages.microsoft.com/ubuntu/18.04/prod bionic main" | tee /etc/apt/sources.list.d/microsoft-prod.list
+# Import Microsoft's GPG key
+RUN curl -sSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+
+# Add the repository
+RUN tee /etc/apt/sources.list.d/microsoft-prod.list <<EOF
+deb [arch=amd64] https://packages.microsoft.com/ubuntu/18.04/prod bionic main
+EOF
+RUN echo 'libk4a1.4 libk4a1.4/accepted-eula-hash string 0f5d5c5de396e4fee4c0753a21fee0c1ed726cf0316204edda484f08cb266d76' | debconf-set-selections
+RUN echo 'libk4a1.4 libk4a1.4/accepted-eula select true' | debconf-set-selections
+RUN echo 'libk4a1.4 libk4a1.4/accepted-eula seen true' | debconf-set-selections
+RUN echo 'libk4a1.4-dev libk4a1.4-dev/accepted-eula select true' | debconf-set-selections
+RUN echo 'libk4a1.4-dev libk4a1.4-dev/accepted-eula seen true' | debconf-set-selections
+RUN echo 'k4a-tools k4a-tools/accepted-eula select true' | debconf-set-selections
+RUN echo 'k4a-tools k4a-tools/accepted-eula seen true' | debconf-set-selections
+
+# Install all the k4a drivers
+RUN apt-get update && apt-get install -y apt-utils  libk4a1.4  libk4a1.4-dev k4a-tools
+
+# Make src folder and clone repository
+WORKDIR /home/roahmlab/src
+
+RUN git clone https://github.com/juancarlosmiranda/azure_kinect_notes.git
+WORKDIR /home/roahmlab/src/azure_kinect_notes
+
+ENV UDEV=on
+RUN  apt-get update &&  apt-get install alsa-utils  locales -y
+RUN /bin/bash -c "export CONAN_REVISIONS_ENABLED=1"
+
+WORKDIR /home/roahmlab/catkin_workspace/src
+RUN git clone https://github.com/microsoft/Azure_Kinect_ROS_Driver.git
+WORKDIR /home/roahmlab/catkin_workspace
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && catkin_make"
+
+RUN locale-gen en_US en_US.UTF-8 && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 && export LANG=en_US.UTF-8
+RUN add-apt-repository universe
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
+RUN apt-get update && apt-get install -y \
+  libbullet-dev \
+  python3-pytest-cov \
+  libasio-dev \
+  libtinyxml2-dev libcunit1-dev
+
+WORKDIR /home/roahmlab/src
+RUN git clone https://github.com/Kinovarobotics/kortex.git
+RUN wget "https://artifactory.kinovaapps.com/ui/api/v1/download?repoKey=generic-public&path=kortex%252FAPI%252F2.6.0%252Fkortex_api-2.6.0.post3-py3-none-any.whl&isNativeBrowsing=false" -O /tmp/kortex_api-2.6.0.post3-py3-none-any.whl && python3 -m pip install /tmp/kortex_api-2.6.0.post3-py3-none-any.whl
+#RUN git clone https://github.com/ParkerEwen5441/roahm_kinova.git # now part of the main repo
+
+RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg && install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+RUN echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
+RUN apt-get update &&  apt-get install libspdlog-dev gpg wget apt-transport-https code ros-dev-tools ros-foxy-desktop python3-argcomplete ros-foxy-pybind11-vendor gcc lcov valgrind gdb -y && pip3 install coverage
+
+RUN ln -s /usr/lib/x86_64-linux-gnu/libtinyxml2.so.6 /usr/lib/libtinyxml2.so.6
+
+#RUN sed -i 's|<arg name="gripper" default="" if="$(eval arg('\''arm'\'') == '\''gen3'\'')"/>|<arg name="gripper" default="robotiq_2f_85" if="$(eval arg('\''arm'\'') == '\''gen3'\'')"/>|' /home/roahmlab/catkin_workspace/src/ros_kortex/kortex_driver/launch/kortex_arm_driver.launch
+#RUN sed -i 's|<arg name="gripper" default="" if="$(eval arg('\''arm'\'') == '\''gen3'\'')"/>|<arg name="gripper" default="robotiq_2f_85" if="$(eval arg('\''arm'\'') == '\''gen3'\'')"/>|' /home/roahmlab/catkin_workspace/src/ros_kortex/kortex_driver/launch/kortex_driver.launch
+
+#Add User
+# RUN useradd --no-log-init -m -s /bin/bash -c '' -G sudo roahmlab || true
+# RUN passwd -l roahmlab
+# RUN echo "roahmlab ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/roahmlab
+# RUN chmod 0440 /etc/sudoers.d/roahmlab
+
+# ARG USER_ID
+# ARG GROUP_ID
+
+# RUN groupmod -g ${GROUP_ID} roahmlab
+# RUN usermod -u ${USER_ID} roahmlab
+
+# # Lock the user's password
+# RUN passwd -l roahmlab
+
+# RUN chown roahmlab:roahmlab /home/roahmlab -R
+# RUN chown roahmlab:roahmlab /opt -R
+# RUN /bin/bash -c "echo /opt/ros/foxy/lib/librcl_yaml_param_parser.so | sudo tee /etc/ld.so.conf.d/rcl_yaml_param_parser.conf" && ldconfig
+ 
+# USER roahmlab
+
+#Setup 
+
+RUN python3 -m pip install conan==1.59
+ENV PATH=$PATH:/home/roahmlab/.local/bin
+RUN  /bin/bash -c "conan config set general.revisions_enabled=1 && conan profile new default --detect > /dev/null && conan profile update settings.compiler.libcxx=libstdc++11 default"
+WORKDIR /home/roahmlab/catkin_workspace/src
+# install some pip packages needed for testing
+RUN python3 -m pip install -U \
+  argcomplete \
+  flake8-blind-except \
+  flake8-builtins \
+  flake8-class-newline \
+  flake8-comprehensions \
+  flake8-deprecated \
+  flake8-docstrings \
+  flake8-import-order \
+  flake8-quotes \
+  pytest-repeat \
+  pytest-rerunfailures \
+  pytest \
+  pybind11
+
+RUN echo "export CONAN_REVISIONS_ENABLED=1" >> /home/roahmlab/.bashrc && echo "source /opt/ros/noetic/setup.bash" >> /home/roahmlab/.bashrc 
+# Copy and install the .vsix extension
+COPY roahm-vscode-document-generator.vsix /tmp/roahmlab.vsix
+RUN  sudo apt-get update && sudo apt-get install nlohmann-json3-dev
+# Install VSCode extensions
+RUN code --install-extension ms-vscode.cpptools \
+    && code --install-extension vadimcn.vscode-lldb \
+    && code --install-extension zainchen.json \
+    && code --install-extension meezilla.json \
+    && code --install-extension ms-python.python \
+    && code --install-extension ms-azuretools.vscode-docker \
+    && code --install-extension ms-iot.vscode-ros \
+    && code --install-extension ms-vscode.makefile-tools \
+    && code --install-extension ms-vscode.cpptools-extension-pack \
+    && code --install-extension ms-vscode.cmake-tools
+
+RUN echo "alias srcros='source /opt/ros/noetic/setup.bash'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias srcws='source ~/catkin_workspace/devel/setup.bash'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias cw='cd ~/catkin_workspace'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias cb='cd ~/catkin_workspace && catkin build'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias cs='cd ~/catkin_workspace/src'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias cbs='cd ~/catkin_workspace && catkin build --this'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias ros='roscore'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias rtl='rostopic list'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias rte='rostopic echo'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias mkbuild='mkdir -p build && cd build && cmake ..'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias mk='make -j$(nproc)'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias mkclean='rm -rf build'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias cmk='cmake --build build'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias cmkdebug='cmake -DCMAKE_BUILD_TYPE=Debug ..'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias cmkrelease='cmake -DCMAKE_BUILD_TYPE=Release ..'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias srcros2='source /opt/ros/foxy/setup.bash'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias srcws2='source ~/ros2_ws/install/setup.bash'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias cw2='cd ~/ros2_ws'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias cb2='cd ~/ros2_ws && colcon build'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias cs2='cd ~/ros2_ws/src'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias cbs2='cd ~/ros2_ws and colcon build --packages-select'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias ros2='ros2 daemon start'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias rt2l='ros2 topic list'" | sudo tee -a /etc/bash.bashrc && \
+    echo "alias rt2e='ros2 topic echo'" | sudo tee -a /etc/bash.bashrc
+
+
+RUN wget -O - http://s3.amazonaws.com/orbbec-debian-repos-aws/repos/orbbec_sdk/pub_key.pub | sudo apt-key add - && apt-key list && echo "deb http://s3.amazonaws.com/orbbec-debian-repos-aws/repos/orbbec_sdk stable main" | sudo tee /etc/apt/sources.list.d/orbbec-orbbecsdk.list
+RUN sudo apt-get update
+RUN sudo apt-get install orbbecsdk -y
+
+RUN sudo apt-get update && sudo apt-get install -y libgflags-dev ros-noetic-image-geometry ros-noetic-camera-info-manager \
+ros-noetic-image-transport ros-noetic-image-publisher libgoogle-glog-dev libusb-1.0-0-dev libeigen3-dev \
+ros-noetic-diagnostic-updater ros-noetic-diagnostic-msgs uuid-dev \
+    pkg-config ninja-build doxygen clang gcc-multilib g++-multilib python3 \
+    nasm libgl1-mesa-dev libsoundio-dev libvulkan-dev libx11-dev libxcursor-dev \
+    libxinerama-dev libxrandr-dev libusb-1.0-0-dev libssl-dev libudev-dev  mesa-common-dev \
+   python3-dev python3-venv python3-pip python3-opencv
+
+WORKDIR /home/roahmlab/src/OrbbecSDK-K4A-Wrapper
+RUN export LD_LIBRARY_PATH=/home/roahmlab/src/OrbbecSDK-K4A-Wrapper/build/lib:$LD_LIBRARY_PATH && mkdir -p build && cd build && cmake .. && make -j8 && sudo make install
+
+
+WORKDIR /home/roahmlab/src/pyorbbecsdk
+RUN python3 -m venv ./venv && source venv/bin/activate && pip3 install -r requirements.txt & mkdir build && cd build && cmake -Dpybind11_DIR=`pybind11-config --cmakedir` .. && make -j4 && make install
+
+CMD ["/bin/bash"]

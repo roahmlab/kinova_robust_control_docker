@@ -1,0 +1,21 @@
+{
+    "name": "Roahm Kinova Development Container",
+    "build": {
+        "dockerfile": "../docker/Dockerfile",
+        "context": ".."
+    },
+    "runArgs": [
+        "--network=host",
+        "--name=Kinova_control_Container"
+    ],
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "extensions": [
+        "ms-vscode.cpptools",
+        "ms-azuretools.vscode-docker",
+        "ms-iot.vscode-ros",
+        "twxs.cmake", 
+    ],
+    // "forwardPorts": [5000, 8000], 
+}
