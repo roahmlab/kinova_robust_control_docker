@@ -1,4 +1,4 @@
-# Docker Image for ROS2 Foxy Development with Kinova and Additional Tools
+# Docker Image for ROS2 Foxy Development with Kinova and RAPTOR
 
 ## Overview
 
@@ -30,7 +30,7 @@ If you don't have Docker installed, you can find the installation instructions [
 #### 1. Clone the repository (together with kinova_control):
 
 ```shell
-git clone --recurse-submodules https://github.com/Zichangzhou1234/kinova_control_docker.git
+git clone --recurse-submodules https://github.com/roahmlab/kinova_control_docker.git
 ```
 
 #### 2. Update kinova_control (optional)
