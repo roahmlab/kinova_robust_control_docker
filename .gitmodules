@@ -3,6 +3,6 @@
     url = git@github.com:roahmlab/kinova_control.git
     branch = ros2-humble
 [submodule "src/RAPTOR"]
-	  path = src/RAPTOR
-	  url = https://github.com/roahmlab/RAPTOR.git
+	path = src/RAPTOR
+	url = https://github.com/roahmlab/RAPTOR.git
     branch = sys_id_dev
