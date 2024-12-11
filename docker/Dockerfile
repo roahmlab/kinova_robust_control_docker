@@ -1,5 +1,5 @@
-# Use NVIDIA's OpenGL base image with Ubuntu 20.04
-FROM nvidia/opengl:base-ubuntu20.04
+# Use NVIDIA's CUDA base image with Ubuntu 22.04
+FROM nvidia/cuda:12.1.1-devel-ubuntu22.04
 
 # Set non-interactive mode for apt-get to avoid prompts during installation
 ENV DEBIAN_FRONTEND=noninteractive
@@ -14,8 +14,9 @@ RUN apt-get update && apt-get install -y \
     nano \                         
     python3-yaml \                  
     git \                        
-    python3 \                       
-    python3-pip \                 
+    python3.10 \                       
+    python3-pip \
+    python3-pytest-cov \
     curl \                        
     wget \                        
     sudo \                       
@@ -34,12 +35,13 @@ RUN apt-get update && \
     apt-get install -y software-properties-common && \
     add-apt-repository universe && \
     curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" \
     | tee /etc/apt/sources.list.d/ros2.list > /dev/null
 
-# Install ROS2 Foxy and essential ROS tools
+# Install ROS2 Humble and essential ROS tools
 RUN apt-get update && apt-get install -y \
-    ros-foxy-desktop \                 
+    ros-humble-desktop \    
+    ros-dev-tools \             
     python3-colcon-common-extensions \    
     python3-argcomplete \ 
     libbullet-dev \                    
@@ -49,7 +51,7 @@ RUN apt-get update && apt-get install -y \
     libcunit1-dev \ 
     libspdlog-dev \               
     nlohmann-json3-dev \ 
-    ros-foxy-pybind11-vendor\ 
+    ros-humble-pybind11-vendor\ 
     gcc\
     lcov\ 
     valgrind\
@@ -57,7 +59,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Automatically source ROS setup script in each new shell
-RUN echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
+RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 
 # Set the working directory for cloning repositories
 WORKDIR /home/roahmlab/src
@@ -68,7 +70,7 @@ RUN wget "https://artifactory.kinovaapps.com/ui/api/v1/download?repoKey=generic-
 
 # Set up Conan, a package manager for C++ dependencies
 RUN python3 -m pip install conan==1.59
-RUN /bin/bash -c "source /opt/ros/foxy/setup.bash && \
+RUN /bin/bash -c "source /opt/ros/humble/setup.bash && \
     conan config set general.revisions_enabled=1 && \
     conan profile new default --detect && \
     conan profile update settings.compiler.libcxx=libstdc++11 default"
@@ -94,8 +96,19 @@ RUN python3 -m pip install -U \
     scipy \
     matplotlib \
     pyyaml
+    
+# apt install -y \
+#    python3-flake8-blind-except \
+#    python3-flake8-builtins \
+#    python3-flake8-class-newline \
+#    python3-flake8-comprehensions \
+#    python3-flake8-deprecated \
+#    python3-flake8-import-order \
+#    python3-flake8-quotes \
+#    python3-pytest-repeat \
+#    python3-pytest-rerunfailures
 
-RUN echo "export CONAN_REVISIONS_ENABLED=1" >> /root/.bashrc && echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
+RUN echo "export CONAN_REVISIONS_ENABLED=1" >> /root/.bashrc && echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 
 RUN apt-get update && apt-get install -y \
     libgflags-dev \
@@ -104,6 +117,7 @@ RUN apt-get update && apt-get install -y \
     libboost-all-dev \
     libopenblas-dev \
     libeigen3-dev \
+    libgsl-dev \
     liblapack-dev \
     libmetis-dev \
     libyaml-cpp-dev \
@@ -159,18 +173,18 @@ RUN --mount=type=cache,target=/var/cache/apt \
 
 # Set environment variables for installed libraries
 # Set unified environment variables
-ENV ROS_DISTRO=foxy \
+ENV ROS_DISTRO=humble \
     ROS_ROOT=/opt/ros/$ROS_DISTRO \
     ROS_PYTHON_VERSION=3 \
-    PATH=/opt/openrobots/bin:/usr/local/bin:/usr/bin:$ROS_ROOT/bin:$PATH \
-    LD_LIBRARY_PATH=/opt/openrobots/lib:/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/local/lib:/usr/local/share:$ROS_ROOT/lib:$LD_LIBRARY_PATH \
-    PYTHONPATH=/opt/openrobots/lib/python3.8/site-packages:$ROS_ROOT/lib/python3.8/site-packages:$PYTHONPATH \
-    CMAKE_PREFIX_PATH=/opt/ros/foxy:/usr:/opt/openrobots:/usr/local:/usr/lib/x86_64-linux-gnu/urdfdom/cmake:/usr/local/include/ompl-1.6:$ROS_ROOT:$CMAKE_PREFIX_PATH \
+    PATH=/opt/openrobots/bin:/usr/local/bin:/usr/bin:/usr/local/cuda/bin:$ROS_ROOT/bin:$PATH \
+    LD_LIBRARY_PATH=/opt/openrobots/lib:/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/local/lib:/usr/local/share:/usr/local/cuda/lib64:$ROS_ROOT/lib:$LD_LIBRARY_PATH \
+    PYTHONPATH=/opt/openrobots/lib/python3.10/site-packages:$ROS_ROOT/lib/python3.10/site-packages:$PYTHONPATH \
+    CMAKE_PREFIX_PATH=/opt/ros/humble:/usr:/opt/openrobots:/usr/local:/usr/lib/x86_64-linux-gnu/urdfdom/cmake:$ROS_ROOT:$CMAKE_PREFIX_PATH \
     PKG_CONFIG_PATH=/opt/openrobots/lib/pkgconfig:$PKG_CONFIG_PATH
 
 
 # Ensure ROS setup is sourced in every shell
-# RUN echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
+# RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 RUN apt-get update && apt-get install -y iputils-ping
 
 # Set the default command to open a Bash shell
