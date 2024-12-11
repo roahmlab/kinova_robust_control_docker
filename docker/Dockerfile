@@ -75,19 +75,25 @@ RUN /bin/bash -c "source /opt/ros/foxy/setup.bash && \
 
 # Install Python tools for testing and linting
 RUN python3 -m pip install -U \
-  argcomplete \
-  flake8-blind-except \
-  flake8-builtins \
-  flake8-class-newline \
-  flake8-comprehensions \
-  flake8-deprecated \
-  flake8-docstrings \
-  flake8-import-order \
-  flake8-quotes \
-  pytest-repeat \
-  pytest-rerunfailures \
-  pytest \
-  pybind11
+    argcomplete \
+    flake8-blind-except \
+    flake8-builtins \
+    flake8-class-newline \
+    flake8-comprehensions \
+    flake8-deprecated \
+    flake8-docstrings \
+    flake8-import-order \
+    flake8-quotes \
+    pytest-repeat \
+    pytest-rerunfailures \
+    pytest \
+    pybind11 \
+    nanobind \
+    pygccxml \
+    pyplusplus \
+    scipy \
+    matplotlib \
+    pyyaml
 
 RUN echo "export CONAN_REVISIONS_ENABLED=1" >> /root/.bashrc && echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
 
@@ -95,11 +101,17 @@ RUN apt-get update && apt-get install -y \
     libgflags-dev \
     libgoogle-glog-dev \
     libusb-1.0-0-dev \
+    libboost-all-dev \
+    libopenblas-dev \
     libeigen3-dev \
+    liblapack-dev \
+    libmetis-dev \
+    libyaml-cpp-dev \
     uuid-dev \
     pkg-config \
     ninja-build \
     doxygen \
+    unzip \
     clang \
     gcc-multilib \
     g++-multilib \
@@ -121,6 +133,9 @@ RUN apt-get update && apt-get install -y \
     python3-opencv\
     && rm -rf /var/lib/apt/lists/*
 
+# Below is for RAPTOR
+    # Copy the HSL source code folder into the Docker image
+COPY docker/HSL.zip /home/roahmlab/src
 
 # Mount and install Pinocchio (robot dynamics library)
 RUN --mount=type=cache,target=/var/cache/apt \
@@ -128,21 +143,19 @@ RUN --mount=type=cache,target=/var/cache/apt \
     bash /tmp/install-pinocchio.sh
 
 # Mount and install the HSL solver
-# RUN apt-get update && apt-get install -y unzip 
-# COPY docker/HSL.zip /home/roahmlab/src
-# RUN --mount=type=cache,target=/var/cache/apt \
-# --mount=type=bind,source=docker/install-hsl.sh,target=/tmp/install-hsl.sh \
-# bash /tmp/install-hsl.sh
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=bind,source=docker/install-hsl.sh,target=/tmp/install-hsl.sh \
+    bash /tmp/install-hsl.sh
 
 # Mount and install the Ipopt solver (optimization library)
-# RUN --mount=type=cache,target=/var/cache/apt \
-# --mount=type=bind,source=docker/install-ipopt.sh,target=/tmp/install-ipopt.sh \
-# bash /tmp/install-ipopt.sh
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=bind,source=docker/install-ipopt.sh,target=/tmp/install-ipopt.sh \
+    bash /tmp/install-ipopt.sh
 
 # Mount and install the OMPL library (motion planning)
-# RUN --mount=type=cache,target=/var/cache/apt \
-# --mount=type=bind,source=install-ompl.sh,target=/tmp/install-ompl.sh \
-# bash /tmp/install-ompl.sh
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=bind,source=docker/install-ompl.sh,target=/tmp/install-ompl.sh \
+    bash /tmp/install-ompl.sh
 
 # Set environment variables for installed libraries
 # Set unified environment variables
@@ -152,7 +165,7 @@ ENV ROS_DISTRO=foxy \
     PATH=/opt/openrobots/bin:/usr/local/bin:/usr/bin:$ROS_ROOT/bin:$PATH \
     LD_LIBRARY_PATH=/opt/openrobots/lib:/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/local/lib:/usr/local/share:$ROS_ROOT/lib:$LD_LIBRARY_PATH \
     PYTHONPATH=/opt/openrobots/lib/python3.8/site-packages:$ROS_ROOT/lib/python3.8/site-packages:$PYTHONPATH \
-    CMAKE_PREFIX_PATH=/opt/ros/foxy:/usr:/opt/openrobots:/usr/local:/usr/lib/x86_64-linux-gnu/urdfdom/cmake:$ROS_ROOT:$CMAKE_PREFIX_PATH \
+    CMAKE_PREFIX_PATH=/opt/ros/foxy:/usr:/opt/openrobots:/usr/local:/usr/lib/x86_64-linux-gnu/urdfdom/cmake:/usr/local/include/ompl-1.6:$ROS_ROOT:$CMAKE_PREFIX_PATH \
     PKG_CONFIG_PATH=/opt/openrobots/lib/pkgconfig:$PKG_CONFIG_PATH
 
 
@@ -162,3 +175,5 @@ RUN apt-get update && apt-get install -y iputils-ping
 
 # Set the default command to open a Bash shell
 CMD ["/bin/bash"]
+
+USER $USERNAME
