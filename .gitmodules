@@ -1,4 +1,4 @@
 [submodule "kinova_control"]
     path = src/kinova_control
     url = git@github.com:roahmlab/kinova_control.git
-    branch = ros2
+    branch = ros2-humble
