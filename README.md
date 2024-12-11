@@ -1,17 +1,18 @@
-# Docker Image for ROS2 Foxy Development with Kinova and RAPTOR
+# Docker Image for ROS2 Humble Development with Kinova and RAPTOR
 
 ## Overview
 
-This Dockerfile sets up a development environment for [kinova_control](https://github.com/roahmlab/kinova_control/tree/ros2), focusing on ROS2 Foxy and support for Kinova's Kortex API. 
+This Dockerfile sets up a development environment for [kinova_control](https://github.com/roahmlab/kinova_control/tree/ros2-humble-sysid-dev), focusing on ROS2 Humble and support for Kinova's Kortex API. 
 It also includes essential tools and libraries for robotics, dynamics, and motion planning. 
-The environment is built on the `nvidia/opengl:base-ubuntu20.04` base image to leverage Nvidia GPUs and OpenGL for performance enhancements.
+The environment is built on the `nvidia/cuda:12.1.1-devel-ubuntu22.04` base image to leverage Nvidia GPUs and OpenGL for performance enhancements.
 
 #### Key Features
-- ROS2 Foxy setup with essential tools.
+- ROS2 Humble setup with essential tools.
 - Integration with Kinova's API.
 - Support for Python-based development and C++ with Conan.
 - Installation of Pinocchio for robot dynamics and optional solver configurations (commented for customization).
 - Pre-installed utilities for debugging, testing, and development.
+- Work with [RAPTOR](https://github.com/roahmlab/RAPTOR).
 
 #### Prerequisites
 
@@ -50,33 +51,22 @@ git submodule update --init --recursive
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 
-For more details, visit the [kinova_control ROS2 branch](https://github.com/roahmlab/kinova_control/tree/ros2).
-
-<!-- ### HSL
-You should complete HSL steps BEFORE you build the docker image otherwise you will have error.
-
-We have selected [HSL](https://www.hsl.rl.ac.uk/) to solve large linear systems in the nonlinear optimization problem. 
-Please follow the instructions below to complete the installation.
-Note that this is ONLY for SINGLE PRECISION version!!!
-1. Go to [HSL MA57](https://www.hsl.rl.ac.uk/catalogue/hsl_ma57.html) official website. Click `Code Download` and follow its instructions. After submitting the request, wait a few minute for email reply.
-2. Download the code in the link that HSL provides you. The name of the zip file and the folder inside it is going to be `hsl_ma57` + its version number. 
-3. Extract the code and rename the folder as `hsl_ma57`. Compress the folder again and rename the zip file as `hsl_ma57.zip` (just make sure both of them are named as `hsl_ma57` by removing the version number).
-4. Note: This zip file will later be 'unziped' and built inside the docker container. -->
+For more details, visit the [kinova_control ROS2-Humble System Identification branch](https://github.com/roahmlab/kinova_control/tree/ros2-humble-sysid-dev).
 
 ---
 
 ## Detail for the dockerfile
 
 #### Base Environment
-- Uses Ubuntu 20.04 with Nvidia OpenGL support.
+- Uses Ubuntu 22.04 with Nvidia CUDA support.
 - Sets non-interactive mode to streamline the installation process.
 
 #### Locale and Dependencies
 - Configures locales for `en_US.UTF-8`.
 - Installs essential tools like `nano`, `git`, `python3`, `pip`, and compilers.
 
-#### ROS2 Foxy Installation
-- Installs ROS2 Foxy desktop packages.
+#### ROS2 Humble Installation
+- Installs ROS2 Humble desktop packages.
 - Adds ROS setup to the environment for easy access.
 
 #### Kinova Kortex API

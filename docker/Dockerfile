@@ -182,7 +182,6 @@ ENV ROS_DISTRO=humble \
     CMAKE_PREFIX_PATH=/opt/ros/humble:/usr:/opt/openrobots:/usr/local:/usr/lib/x86_64-linux-gnu/urdfdom/cmake:$ROS_ROOT:$CMAKE_PREFIX_PATH \
     PKG_CONFIG_PATH=/opt/openrobots/lib/pkgconfig:$PKG_CONFIG_PATH
 
-
 # Ensure ROS setup is sourced in every shell
 # RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 RUN apt-get update && apt-get install -y iputils-ping
