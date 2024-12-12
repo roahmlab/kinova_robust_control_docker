@@ -87,7 +87,9 @@ RUN python3 -m pip install -U \
   pytest-repeat \
   pytest-rerunfailures \
   pytest \
-  pybind11
+  pybind11 \
+  rosbags \
+  matplotlib
 
 RUN echo "export CONAN_REVISIONS_ENABLED=1" >> /root/.bashrc && echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
 
