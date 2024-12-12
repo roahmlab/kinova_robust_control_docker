@@ -92,7 +92,8 @@ RUN python3 -m pip install -U \
     pybind11 \
     nanobind \
     pygccxml \
-    pyplusplus
+    pyplusplus \
+    rosbags
 
 # apt install -y \
 #    python3-flake8-blind-except \
