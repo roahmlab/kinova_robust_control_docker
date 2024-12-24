@@ -12,6 +12,7 @@ The environment is built on the `nvidia/cuda:12.1.1-devel-ubuntu22.04` base imag
 - Support for Python-based development and C++ with Conan.
 - Installation of Pinocchio for robot dynamics and optional solver configurations (commented for customization).
 - Pre-installed utilities for debugging, testing, and development.
+- Work with [RAPTOR](https://github.com/roahmlab/RAPTOR).
 
 #### Prerequisites
 
@@ -30,7 +31,7 @@ If you don't have Docker installed, you can find the installation instructions [
 #### 1. Clone the repository (together with kinova_control):
 
 ```shell
-git clone --recurse-submodules https://github.com/Zichangzhou1234/kinova_control_docker.git
+git clone --recurse-submodules https://github.com/roahmlab/kinova_control_docker.git
 ```
 
 #### 2. Update kinova_control (optional)

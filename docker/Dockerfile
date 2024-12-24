@@ -93,6 +93,9 @@ RUN python3 -m pip install -U \
     nanobind \
     pygccxml \
     pyplusplus \
+    scipy \
+    matplotlib \
+    pyyaml
     rosbags
 
 # apt install -y \
@@ -112,12 +115,16 @@ RUN apt-get update && apt-get install -y \
     libgflags-dev \
     libgoogle-glog-dev \
     libusb-1.0-0-dev \
+    libboost-all-dev \
+    libopenblas-dev \
     libeigen3-dev \
     libgsl-dev \
+    liblapack-dev \
+    libmetis-dev \
+    libyaml-cpp-dev \
     uuid-dev \
     pkg-config \
     ninja-build \
-    doxygen \
     clang \
     gcc-multilib \
     g++-multilib \
@@ -139,28 +146,15 @@ RUN apt-get update && apt-get install -y \
     python3-opencv\
     && rm -rf /var/lib/apt/lists/*
 
-
 # Mount and install Pinocchio (robot dynamics library)
 RUN --mount=type=cache,target=/var/cache/apt \
     --mount=type=bind,source=docker/install-pinocchio.sh,target=/tmp/install-pinocchio.sh \
     bash /tmp/install-pinocchio.sh
 
-# Mount and install the HSL solver
-# RUN apt-get update && apt-get install -y unzip 
-# COPY docker/HSL.zip /home/roahmlab/src
-# RUN --mount=type=cache,target=/var/cache/apt \
-# --mount=type=bind,source=docker/install-hsl.sh,target=/tmp/install-hsl.sh \
-# bash /tmp/install-hsl.sh
-
-# Mount and install the Ipopt solver (optimization library)
-# RUN --mount=type=cache,target=/var/cache/apt \
-# --mount=type=bind,source=docker/install-ipopt.sh,target=/tmp/install-ipopt.sh \
-# bash /tmp/install-ipopt.sh
-
 # Mount and install the OMPL library (motion planning)
-# RUN --mount=type=cache,target=/var/cache/apt \
-# --mount=type=bind,source=install-ompl.sh,target=/tmp/install-ompl.sh \
-# bash /tmp/install-ompl.sh
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=bind,source=docker/install-ompl.sh,target=/tmp/install-ompl.sh \
+    bash /tmp/install-ompl.sh
 
 # Set environment variables for installed libraries
 # Set unified environment variables
@@ -173,10 +167,11 @@ ENV ROS_DISTRO=humble \
     CMAKE_PREFIX_PATH=/opt/ros/humble:/usr:/opt/openrobots:/usr/local:/usr/lib/x86_64-linux-gnu/urdfdom/cmake:$ROS_ROOT:$CMAKE_PREFIX_PATH \
     PKG_CONFIG_PATH=/opt/openrobots/lib/pkgconfig:$PKG_CONFIG_PATH
 
-
 # Ensure ROS setup is sourced in every shell
 # RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 RUN apt-get update && apt-get install -y iputils-ping
 
 # Set the default command to open a Bash shell
 CMD ["/bin/bash"]
+
+USER $USERNAME

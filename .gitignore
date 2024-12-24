@@ -52,3 +52,7 @@ scripts/roahm-vscode-document-generator-0.0.16.vsix
 *.zip
 docker/pardiso/
 HSL/
+
+# files
+*.mat
+*.txt
