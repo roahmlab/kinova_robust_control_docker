@@ -1,8 +1,8 @@
-# Docker Image for ROS2 Humble Development with Kinova and RAPTOR
+# Docker Image for ROS2 Humble Development with Kinova and Additional Tools
 
 ## Overview
 
-This Dockerfile sets up a development environment for [kinova_control](https://github.com/roahmlab/kinova_control/tree/ros2-humble-sysid-dev), focusing on ROS2 Humble and support for Kinova's Kortex API. 
+This Dockerfile sets up a development environment for [kinova_control](https://github.com/roahmlab/kinova_control/tree/ros2-humble), focusing on ROS2 Humble and support for Kinova's Kortex API. 
 It also includes essential tools and libraries for robotics, dynamics, and motion planning. 
 The environment is built on the `nvidia/cuda:12.1.1-devel-ubuntu22.04` base image to leverage Nvidia GPUs and OpenGL for performance enhancements.
 
@@ -51,7 +51,7 @@ git submodule update --init --recursive
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 
-For more details, visit the [kinova_control ROS2-Humble System Identification branch](https://github.com/roahmlab/kinova_control/tree/ros2-humble-sysid-dev).
+For more details, visit the [kinova_control ROS2-Humble branch](https://github.com/roahmlab/kinova_control/tree/ros2-humble).
 
 ---
 

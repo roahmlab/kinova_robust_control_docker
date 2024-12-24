@@ -96,7 +96,8 @@ RUN python3 -m pip install -U \
     scipy \
     matplotlib \
     pyyaml
-    
+    rosbags
+
 # apt install -y \
 #    python3-flake8-blind-except \
 #    python3-flake8-builtins \
@@ -124,8 +125,6 @@ RUN apt-get update && apt-get install -y \
     uuid-dev \
     pkg-config \
     ninja-build \
-    doxygen \
-    unzip \
     clang \
     gcc-multilib \
     g++-multilib \
@@ -147,24 +146,10 @@ RUN apt-get update && apt-get install -y \
     python3-opencv\
     && rm -rf /var/lib/apt/lists/*
 
-# Below is for RAPTOR
-    # Copy the HSL source code folder into the Docker image
-COPY docker/HSL.zip /home/roahmlab/src
-
 # Mount and install Pinocchio (robot dynamics library)
 RUN --mount=type=cache,target=/var/cache/apt \
     --mount=type=bind,source=docker/install-pinocchio.sh,target=/tmp/install-pinocchio.sh \
     bash /tmp/install-pinocchio.sh
-
-# Mount and install the HSL solver
-RUN --mount=type=cache,target=/var/cache/apt \
-    --mount=type=bind,source=docker/install-hsl.sh,target=/tmp/install-hsl.sh \
-    bash /tmp/install-hsl.sh
-
-# Mount and install the Ipopt solver (optimization library)
-RUN --mount=type=cache,target=/var/cache/apt \
-    --mount=type=bind,source=docker/install-ipopt.sh,target=/tmp/install-ipopt.sh \
-    bash /tmp/install-ipopt.sh
 
 # Mount and install the OMPL library (motion planning)
 RUN --mount=type=cache,target=/var/cache/apt \
