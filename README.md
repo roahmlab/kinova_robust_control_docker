@@ -1,4 +1,4 @@
-# Docker Image for ROS2 Humble Development with Kinova and RAPTOR
+# Docker Image for ROS2 Humble Development with Kinova and Additional Tools
 
 ## Overview
 

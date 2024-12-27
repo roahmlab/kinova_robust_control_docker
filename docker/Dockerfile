@@ -126,7 +126,6 @@ RUN apt-get update && apt-get install -y \
     uuid-dev \
     pkg-config \
     ninja-build \
-    doxygen \
     unzip \
     clang \
     gcc-multilib \
