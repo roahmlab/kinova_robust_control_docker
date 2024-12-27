@@ -11,8 +11,8 @@
 
     is_gripper_open: false 
 
-    # model_path: "./models/urdf/gen3_2f85_fixed.urdf"
-    model_path: "./models/urdf/gen3_2f85_dumbbell_1lb.urdf"
+    model_path: "./models/urdf/gen3_2f85_fixed.urdf"
+    # model_path: "./models/urdf/gen3_2f85_dumbbell_3lb.urdf"
 
     ros_traj_topic: "trajectory"
     ros_traj_enb: false
@@ -38,9 +38,9 @@
     friction_eps: [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
     damping_eps: [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
     transmissionInertia_eps: [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
-    mass_eps: [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
-    com_eps: [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
-    inertia_eps: [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
+    mass_eps: [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.20]
+    com_eps: [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.20]
+    inertia_eps: [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.20]
 
     ###
     # PARAMS
@@ -57,7 +57,7 @@
     Kd: [5.0, 5.0, 5.0, 5.0, 1.0, 1.0, 1.0]
 
       # passivity-based controller parameters
-    Kr: [5.0, 5.0, 5.0, 5.0, 7.0, 7.0, 7.0]
+    Kr: [5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0]
 
       # Armour robust controller parameters
     alpha: 20.0

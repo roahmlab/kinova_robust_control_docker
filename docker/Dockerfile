@@ -77,6 +77,7 @@ RUN /bin/bash -c "source /opt/ros/humble/setup.bash && \
 
 # Install Python tools for testing and linting
 RUN python3 -m pip install -U \
+    numpy==1.25.2 \
     argcomplete \
     flake8-blind-except \
     flake8-builtins \
@@ -95,7 +96,8 @@ RUN python3 -m pip install -U \
     pyplusplus \
     scipy \
     matplotlib \
-    pyyaml
+    pyyaml \
+    rosbags
     
 # apt install -y \
 #    python3-flake8-blind-except \
