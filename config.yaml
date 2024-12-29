@@ -6,8 +6,8 @@
     # Robot
     ###
     ip: "192.168.1.10"
-    latency_warn: 10000
-    latency_error: 20000
+    latency_warn: 4000
+    latency_error: 5000
 
     is_gripper_open: false 
 
