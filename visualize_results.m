@@ -1,11 +1,11 @@
 clc;
 
-dumbbell_name = '5lb';
+dumbbell_name = '7lb';
 
 model = URDF_to_spatialv2_model(['models/urdf/gen3_2f85_dumbbell_', dumbbell_name, '.urdf']);
 theta_groundtruth = getModelInertialParams(model);
 theta_groundtruth = theta_groundtruth(61:70);
-theta_groundtruth = theta_groundtruth([1:4, 5, 9, 10, 6, 8, 7]);
+theta_groundtruth = theta_groundtruth([1:4, 5, 10, 6, 9, 8, 7]);
 
 %%
 thetas = [];

@@ -57,7 +57,7 @@
     Kd: [5.0, 5.0, 5.0, 5.0, 1.0, 1.0, 1.0]
 
       # passivity-based controller parameters
-    Kr: [5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0]
+    Kr: [5.0, 7.0, 5.0, 7.0, 5.0, 7.0, 5.0]
 
       # Armour robust controller parameters
     alpha: 20.0
