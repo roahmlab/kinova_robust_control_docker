@@ -1,4 +1,4 @@
-clc;
+close all; clc;
 
 dumbbell_name = '7lb';
 
@@ -12,7 +12,7 @@ thetas = [];
 theta_uncertainties = [];
 theta_lbs = [];
 theta_ubs = [];
-for i = 1:5
+for i = 1:4
     result = load(['results/sysid_result_', num2str(i-1), '.mat']);
     thetas = [thetas; result.theta_solution];
     theta_uncertainties = [theta_uncertainties; result.theta_uncertainty];
@@ -23,16 +23,16 @@ end
 figure;
 for i = 1:10
     subplot(2,5,i);
-    errorbar(0:4, thetas(:,i), theta_uncertainties(:,i), 'b');
+    errorbar(0:3, thetas(:,i), theta_uncertainties(:,i), 'b');
     hold on;
-    plot(0:4, theta_groundtruth(i) * ones(1,5), 'ro-');
-    plot(0:4, theta_lbs(:, i), 'g*');
-    plot(0:4, theta_ubs(:, i), 'g*');
+    plot(0:3, theta_groundtruth(i) * ones(1,4), 'ro-');
+    plot(0:3, theta_lbs(:, i), 'g*');
+    plot(0:3, theta_ubs(:, i), 'g*');
     if i == 1
         legend('estimation', 'groundtruth', 'updated lower bound', 'updated upper bound');
     end
-    xlim([-1,5]);
-    xticks(0:4);
+    xlim([-1,4]);
+    xticks(0:3);
     xlabel('number of exciting trajectories');
     if i == 1
         ylabel('value (mass: kg)');
@@ -51,12 +51,15 @@ t3 = te(:,1);
 e = te(:,2:8);
 t3 = t3 / 1e9;
 t3 = t3 - t3(1);
+tracking_id = (te(:,end) == 1);
+tracking_end = find(flip(tracking_id) == 1);
+tracking_end = length(t3) - tracking_end(1);
 figure;
 for i = 1:7
     subplot(2,4,i);
+    plot(t3(tracking_id), rad2deg(e(tracking_id, i)), 'b.');
     hold on;
-    plot(t3(te(:,end) == 1), rad2deg(e(te(:,end) == 1,i)), 'b.');
-    plot([t3(1), t3(end)], [0, 0], 'k');
+    plot([t3(1), t3(tracking_end)], [0, 0], 'k');
     xlabel('time (sec)');
     ylabel('tracking error (degree)');
     title(['joint ', num2str(i)]);
