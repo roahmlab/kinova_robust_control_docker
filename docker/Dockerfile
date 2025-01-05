@@ -95,7 +95,7 @@ RUN python3 -m pip install -U \
     pyplusplus \
     scipy \
     matplotlib \
-    pyyaml
+    pyyaml \
     rosbags
 
 # apt install -y \
