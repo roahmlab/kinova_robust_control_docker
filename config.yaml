@@ -6,13 +6,13 @@
     # Robot
     ###
     ip: "192.168.1.10"
-    latency_warn: 4000
-    latency_error: 5000
+    latency_warn: 2000
+    latency_error: 3000
 
     is_gripper_open: false 
 
     model_path: "./models/urdf/gen3_2f85_fixed.urdf"
-    # model_path: "./models/urdf/gen3_2f85_dumbbell_3lb.urdf"
+    # model_path: "./models/urdf/gen3_2f85_dumbbell_4lb.urdf"
 
     ros_traj_topic: "trajectory"
     ros_traj_enb: false
@@ -52,15 +52,15 @@
     # Kp: [120.0, 200.0, 120.0, 120.0, 120.0, 20.0, 20.0]
     # Ki: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
     # Kd: [5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0]
-    Kp: [75.0, 75.0, 75.0, 75.0, 20.0, 20.0, 20.0]
-    Ki: [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
+    Kp: [80.0, 80.0, 80.0, 80.0, 20.0, 20.0, 20.0]
+    Ki: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     Kd: [5.0, 5.0, 5.0, 5.0, 1.0, 1.0, 1.0]
 
       # passivity-based controller parameters
-    Kr: [5.0, 8.0, 5.0, 8.0, 5.0, 5.0, 5.0]
+    Kr: [5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0]
 
       # Armour robust controller parameters
-    alpha: 20.0
+    alpha: 25.0
     V_max: 2e-2
     r_norm_threshold: 1e-8
 
@@ -90,8 +90,10 @@
     # sysid start position
     # init_pos: [1.001089876408351, 0.09140272042061115,  -1.648806446891836,   2.381092213417765,   1.822374826812066,  0.1466609489107418, 0.9315315991321746]
 
-    # init_pos: [0.0, 0.262, 3.142, 4.014, 6.283, 0.960, 1.571] # home position
-    init_pos: [0.0, 0.262, 3.142, -2.2692, 0.0, -0.6108, 1.571] # near home position
+    init_pos: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] # zero position
+
+    # init_pos: [0.0, 0.262, 3.1415926, -2.2692, 0.0, 0.960, 1.570796] # home position
+    # init_pos: [0.0, 0.262, 3.142, -2.2692, 0.0, -0.6108, 1.571] # near home position
     # init_pos: [2.1330967, 0.92962713, 2.09719171, -1.57763623, 0.86096777, -1.15192888, 0.89113271] # a pickup position
 
     # init_pos: [0.3165,    0.9076,    2.9845,    4.6763,    0.2054,    0.9243,    0.0]

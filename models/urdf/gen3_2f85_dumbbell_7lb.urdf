@@ -705,12 +705,12 @@
     <inertial>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <mass value="3.17514659"/>
-      <inertia ixx="0.00051435522" ixy="0" ixz="0" iyy="0.00457151019" iyz="0" izz="0.00457151019"/>
+      <inertia ixx="0.00211925982" ixy="0" ixz="0" iyy="0.01530150946" iyz="0" izz="0.01530150946"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="-0.07 -0.0225 -0.0225"/>
       <geometry>
-        <mesh filename="meshes/dumbbell_3lb.STL" scale="0.001 0.001 0.001"/>
+        <mesh filename="meshes/dumbbell_7lb.STL" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="">
         <color rgba="0.89804 0.91765 0.92941 0.25"/>
@@ -719,7 +719,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="-0.07 -0.0225 -0.0225"/>
       <geometry>
-        <mesh filename="meshes/dumbbell_3lb.STL" scale="0.001 0.001 0.001"/>
+        <mesh filename="meshes/dumbbell_7lb.STL" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
