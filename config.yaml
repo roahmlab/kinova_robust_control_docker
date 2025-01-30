@@ -41,35 +41,56 @@
     mass_eps: [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.20]
     com_eps: [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.20]
     inertia_eps: [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.20]
+    # friction_eps: [0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025]
+    # damping_eps: [0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025]
+    # transmissionInertia_eps: [0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025]
+    # mass_eps: [0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025]
+    # com_eps: [0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025]
+    # inertia_eps: [0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025]
 
     ###
     # PARAMS
     ###
     # controllers
-    controller_type: "ARMOUR" # PID, GRAV_PID, ARMOUR
+    controller_type: "Adaptive" # PID, GRAV_PID, ARMOUR, ALTHOFF, Adaptive, PassiveRobust, RobustID
 
     # PID
-    # Kp: [120.0, 200.0, 120.0, 120.0, 120.0, 20.0, 20.0]
-    # Ki: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
-    # Kd: [5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0]
-    Kp: [80.0, 80.0, 80.0, 80.0, 20.0, 20.0, 20.0]
-    Ki: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-    Kd: [5.0, 5.0, 5.0, 5.0, 1.0, 1.0, 1.0]
+    # Kp: [80.0, 80.0, 80.0, 80.0, 20.0, 20.0, 20.0]
+    # Ki: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    # Kd: [5.0, 5.0, 5.0, 5.0, 1.0, 1.0, 1.0]
 
       # passivity-based controller parameters
     Kr: [5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0]
 
-      # Armour robust controller parameters
-    alpha: 25.0
-    V_max: 2e-2
-    r_norm_threshold: 1e-8
+    #   # Armour robust controller parameters
+    # alpha: 20.0
+    # V_max: 2e-2
+    # r_norm_threshold: 1e-8
 
-      # Althoff robust controller parameters
-    phi_p: 30.
-    phi_i: 0.1
-    kappa_p: 20.0
-    kappa_i: 2.0
-    max_error: 1.
+    #   # Althoff robust controller parameters
+    # phi_p: 50.0
+    # phi_i: 5.0
+    # kappa_p: 50.0
+    # kappa_i: 5.0
+    # max_error_bound: 0.005
+
+      # Adaptive controller parameters
+    Kd: [5.0, 5.0, 5.0, 5.0, 1.0, 1.0, 1.0]
+    Gamma: [5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 2.0, 2.0, 2.0, 1.0]
+    tau_max_error: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    eta: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+    #   # Passive robust controller parameters
+    # Kd: [5.0, 5.0, 5.0, 5.0, 1.0, 1.0, 1.0]
+    # epsilon: 5.0
+
+    #   # RobustID controller parameters
+    # Kp: [5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0]
+    # Kd: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+    # alpha: 0.7
+    # epsilon: 15.0
+    # gamma1: 0.5
+    # gamma2: 0.5
 
     # joint filter
     enable_joint_filter: false

@@ -704,7 +704,7 @@
   <link name="object_link">
     <inertial>
       <origin rpy="0 0 0" xyz="0 0 0"/>
-      <mass value="3.17514659"/>
+      <mass value="3.62873896"/>
       <inertia ixx="0.00244488449" ixy="0" ixz="0" iyy="0.01804942303" iyz="0" izz="0.01804942303"/>
     </inertial>
     <visual>
