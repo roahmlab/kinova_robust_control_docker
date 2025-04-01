@@ -1,5 +1,6 @@
 # Use NVIDIA's CUDA base image with Ubuntu 22.04
-FROM nvidia/cuda:12.1.1-devel-ubuntu22.04
+# FROM nvidia/cuda:12.1.1-devel-ubuntu22.04
+FROM ubuntu:22.04
 
 # Set non-interactive mode for apt-get to avoid prompts during installation
 ENV DEBIAN_FRONTEND=noninteractive

@@ -6,7 +6,7 @@
     },
     "runArgs": [
         "--network=host",
-        "--name=Kinova_control_Container"
+        "--name=Kinova_control_container"
     ],
     "settings": {
         "terminal.integrated.shell.linux": "/bin/bash"
