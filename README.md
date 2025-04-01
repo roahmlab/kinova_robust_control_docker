@@ -54,7 +54,7 @@ For more details, visit the [kinova_robust_control humble branch](https://github
 ## Detail for the dockerfile
 
 #### Base Environment
-- Uses Ubuntu 22.04 with Nvidia CUDA support.
+- Uses Ubuntu 22.04.
 - Sets non-interactive mode to streamline the installation process.
 
 #### Locale and Dependencies
@@ -83,6 +83,24 @@ For more details, visit the [kinova_robust_control humble branch](https://github
 - Configures environment variables for ROS, Python, and installed libraries.
 
 ---
+
+## Acknowlgement
+
+The Docker file pulls code from the [KINOVA® KORTEX™ API Reference](https://github.com/Kinovarobotics/kortex) developed and maintained by [Kinova Robotics](https://www.kinovarobotics.com/). 
+We gratefully acknowledge their work and contribution to the open-source robotics community.
+
+---
+
+## Credits
+
+Sean Rice (Seanrice@umich.edu): Original creater of the docker file.
+
+Zichang Zhou (zhouzichang1234@gmail.com): Clean up the docker file and the repository.
+
+[Bohao Zhang](https://cfather.github.io/) (jimzhang@umich.edu): **Current maintainer**. Clean up the docker file and the repository.
+
+---
+
 ## Rules
 If you have any questions or suggestions, please raise them in [Issues](https://github.com/roahmlab/kinova_robust_control_docker/issues).
 We will get back to you as soon as possible.
