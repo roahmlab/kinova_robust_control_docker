@@ -98,7 +98,8 @@ RUN python3 -m pip install -U \
     scipy \
     matplotlib \
     pyyaml \
-    rosbags
+    rosbags \
+    pyserial
     
 # apt install -y \
 #    python3-flake8-blind-except \

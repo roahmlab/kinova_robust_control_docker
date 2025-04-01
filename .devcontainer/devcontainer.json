@@ -5,8 +5,10 @@
         "context": ".."
     },
     "runArgs": [
+        "-it",
         "--network=host",
-        "--name=Kinova_control_container"
+        "--name=Kinova_control_container",
+        "--device=/dev/ttyACM0"
     ],
     "settings": {
         "terminal.integrated.shell.linux": "/bin/bash"
