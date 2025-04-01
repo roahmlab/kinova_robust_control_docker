@@ -1,5 +1,5 @@
-# Use NVIDIA's CUDA base image with Ubuntu 22.04
-FROM nvidia/cuda:12.1.1-devel-ubuntu22.04
+FROM ubuntu:22.04
+# FROM nvidia/cuda:12.1.1-devel-ubuntu22.04 # uncomment this line if you want to use CUDA
 
 # Set non-interactive mode for apt-get to avoid prompts during installation
 ENV DEBIAN_FRONTEND=noninteractive
@@ -150,11 +150,6 @@ RUN apt-get update && apt-get install -y \
 RUN --mount=type=cache,target=/var/cache/apt \
     --mount=type=bind,source=docker/install-pinocchio.sh,target=/tmp/install-pinocchio.sh \
     bash /tmp/install-pinocchio.sh
-
-# Mount and install the OMPL library (motion planning)
-RUN --mount=type=cache,target=/var/cache/apt \
-    --mount=type=bind,source=docker/install-ompl.sh,target=/tmp/install-ompl.sh \
-    bash /tmp/install-ompl.sh
 
 # Set environment variables for installed libraries
 # Set unified environment variables

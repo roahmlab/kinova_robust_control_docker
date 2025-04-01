@@ -1,8 +1,4 @@
-[submodule "kinova_control"]
-    path = src/kinova_control
-    url = git@github.com:roahmlab/kinova_control.git
-    branch = ros2-humble-sysid-dev
-[submodule "src/RAPTOR"]
-	path = src/RAPTOR
-	url = https://github.com/roahmlab/RAPTOR.git
-    branch = sys_id_dev
+[submodule "kinova_robust_control"]
+    path = src/kinova_robust_control
+    url = git@github.com:roahmlab/kinova_robust_control.git
+    branch = humble

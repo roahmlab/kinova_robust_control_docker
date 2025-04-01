@@ -44,8 +44,6 @@ Makefile
 rosdep.yaml
 rosinstall
 scripts/logs/latest
-scripts/logs/latest
-scripts/logs/latest
 scripts/roahm-vscode-document-generator-0.0.16.vsix
 
 # docker
@@ -53,6 +51,6 @@ scripts/roahm-vscode-document-generator-0.0.16.vsix
 docker/pardiso/
 HSL/
 
-# files
+# matlab files
 *.mat
-*.txt
+*.asv

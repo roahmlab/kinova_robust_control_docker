@@ -5,8 +5,9 @@
         "context": ".."
     },
     "runArgs": [
-        "--network=host",
-        "--name=Kinova_control_Container"
+        "--name=kinova_robust_control_container",
+        "-it", // interactive terminal
+        "--network=host" // so that you can connect to the robot
     ],
     "settings": {
         "terminal.integrated.shell.linux": "/bin/bash"
