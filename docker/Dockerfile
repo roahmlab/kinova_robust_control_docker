@@ -51,11 +51,10 @@ RUN apt-get update && apt-get install -y \
     libcunit1-dev \ 
     libspdlog-dev \               
     nlohmann-json3-dev \ 
-    ros-humble-pybind11-vendor\ 
-    gcc\
-    lcov\ 
-    valgrind\
-    gdb\            
+    ros-humble-pybind11-vendor \ 
+    gcc \
+    lcov \
+    gdb \            
     && rm -rf /var/lib/apt/lists/*
 
 # Automatically source ROS setup script in each new shell
@@ -89,6 +88,7 @@ RUN python3 -m pip install -U \
     pytest-repeat \
     pytest-rerunfailures \
     pytest \
+    numpy==1.26.4 \
     pybind11 \
     nanobind \
     pygccxml \

@@ -55,8 +55,13 @@ As before, source the workspace after opening a new terminal:
 source install/setup.bash
 ```
 
-
 For more details, visit the [kinova_robust_control humble branch](https://github.com/roahmlab/kinova_robust_control/tree/humble).
+
+Note that you may have to remove all previous compiled objects if you make changes to the dockerfile and rebuild the docker container:
+```bash
+rm -rf build install devel
+```
+Please save important files or folders before you do this.
 
 ## Detail for the dockerfile
 

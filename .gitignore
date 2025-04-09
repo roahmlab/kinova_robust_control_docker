@@ -3,6 +3,7 @@
 *.log
 *.obj
 log/
+models/endeffector_inertial_parameters.txt
 
 # Ignore everything in the scripts/data directory
 scripts/data/
