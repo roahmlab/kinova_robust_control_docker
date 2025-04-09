@@ -17,39 +17,46 @@ The environment is built on the `ubuntu:22.04` base image.
 - **Docker Installed**: Ensure Docker is set up properly and running on your system.
 - **Internet Access**: The Docker container uses host networking mode for communication.
 
----
-
 ## Build the Docker
 
-We have provided a [Dockerfile](docker/Dockerfile) that will automatically install all the required packages. 
-If you don't have Docker installed, you can find the installation instructions [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository).
+This repository includes a [Dockerfile](docker/Dockerfile) that installs all necessary dependencies.
 
-#### 1. Clone the repository (together with kinova_robust_control):
+> Need Docker? Follow the [official instructions](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository).
 
-```shell
+### 1. Clone the Docker Repository (with Submodules)
+
+```bash
 git clone --recurse-submodules https://github.com/roahmlab/kinova_robust_control_docker.git
 ```
 
-#### 2. Update kinova_robust_control (optional)
+### 2. Update `kinova_robust_control` (Optional)
 
-```shell
+```bash
 git submodule update --init --recursive
 ```
 
-#### 2. Build docker based Visual Studio Code:
-1. Open Visual Studio Code and Press `Ctrl+Shift+P`.
-2. Search for `Dev Containers: Rebuild and Reopen Container`.
-3. Select it to automatically build the environment from the [Dockerfile](docker/Dockerfile).
+### 3. Build the Docker Container in VS Code
 
-#### 3. Build kinova_robust_control
+1. Open VS Code.
+2. Press `Ctrl+Shift+P` and search for: `Dev Containers: Rebuild and Reopen Container`.
+3. Select it to automatically build the container using the provided Dockerfile.
 
-```shell
+### 4. Build `kinova_robust_control`
+
+Inside the container, run:
+
+```bash
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 
-For more details, visit the [kinova_robust_control humble branch](https://github.com/roahmlab/kinova_robust_control/tree/humble).
+As before, source the workspace after opening a new terminal:
 
----
+```bash
+source install/setup.bash
+```
+
+
+For more details, visit the [kinova_robust_control humble branch](https://github.com/roahmlab/kinova_robust_control/tree/humble).
 
 ## Detail for the dockerfile
 
@@ -82,24 +89,20 @@ For more details, visit the [kinova_robust_control humble branch](https://github
 #### Environment Variables
 - Configures environment variables for ROS, Python, and installed libraries.
 
----
-
 ## Acknowlgement
 
 The Docker file pulls code from the [KINOVA® KORTEX™ API Reference](https://github.com/Kinovarobotics/kortex) developed and maintained by [Kinova Robotics](https://www.kinovarobotics.com/). 
 We gratefully acknowledge their work and contribution to the open-source robotics community.
 
----
+## Authors
 
-## Credits
+This work is developed in [ROAHM Lab](https://www.roahmlab.com/). 
 
 Sean Rice (Seanrice@umich.edu): Original creater of the docker file.
 
 Zichang Zhou (zhouzichang1234@gmail.com): Clean up the docker file and the repository.
 
 [Bohao Zhang](https://cfather.github.io/) (jimzhang@umich.edu): **Current maintainer**. Clean up the docker file and the repository.
-
----
 
 ## Rules
 If you have any questions or suggestions, please raise them in [Issues](https://github.com/roahmlab/kinova_robust_control_docker/issues).
