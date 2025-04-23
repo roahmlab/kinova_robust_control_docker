@@ -5,4 +5,4 @@
 [submodule "RAPTOR"]
     path = src/RAPTOR
     url = https://github.com/roahmlab/RAPTOR.git
-    branch = main 
+    branch = main

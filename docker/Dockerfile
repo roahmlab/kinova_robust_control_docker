@@ -180,7 +180,7 @@ ENV ROS_DISTRO=humble \
     PATH=/opt/openrobots/bin:/usr/local/bin:/usr/bin:/usr/local/cuda/bin:$ROS_ROOT/bin:$PATH \
     LD_LIBRARY_PATH=/opt/openrobots/lib:/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/local/lib:/usr/local/share:/usr/local/cuda/lib64:$ROS_ROOT/lib:$LD_LIBRARY_PATH \
     PYTHONPATH=/opt/openrobots/lib/python3.10/site-packages:$ROS_ROOT/lib/python3.10/site-packages:$PYTHONPATH \
-    CMAKE_PREFIX_PATH=/opt/ros/humble:/usr:/opt/openrobots:/usr/local:/usr/lib/x86_64-linux-gnu/urdfdom/cmake:$ROS_ROOT:$CMAKE_PREFIX_PATH \
+    CMAKE_PREFIX_PATH=/opt/ros/humble:/usr:/opt/openrobots:/usr/local:/usr/local/include/ompl-1.7:/usr/lib/x86_64-linux-gnu/urdfdom/cmake:$ROS_ROOT:$CMAKE_PREFIX_PATH \
     PKG_CONFIG_PATH=/opt/openrobots/lib/pkgconfig:$PKG_CONFIG_PATH
 
 # Ensure ROS setup is sourced in every shell
