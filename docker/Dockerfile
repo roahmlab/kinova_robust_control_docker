@@ -1,6 +1,5 @@
-# Use NVIDIA's CUDA base image with Ubuntu 22.04
-# FROM nvidia/cuda:12.1.1-devel-ubuntu22.04
 FROM ubuntu:22.04
+# FROM nvidia/cuda:12.1.1-devel-ubuntu22.04 # uncomment this line if you want to use CUDA
 
 # Set non-interactive mode for apt-get to avoid prompts during installation
 ENV DEBIAN_FRONTEND=noninteractive
@@ -52,11 +51,10 @@ RUN apt-get update && apt-get install -y \
     libcunit1-dev \ 
     libspdlog-dev \               
     nlohmann-json3-dev \ 
-    ros-humble-pybind11-vendor\ 
-    gcc\
-    lcov\ 
-    valgrind\
-    gdb\            
+    ros-humble-pybind11-vendor \ 
+    gcc \
+    lcov \
+    gdb \            
     && rm -rf /var/lib/apt/lists/*
 
 # Automatically source ROS setup script in each new shell
